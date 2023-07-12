@@ -1,0 +1,26 @@
+version: "3"
+services:
+  dashboard:
+    image: dpage/pgadmin4:6.12
+    ports:
+      - "60080:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.admin
+      - PGADMIN_DEFAULT_PASSWORD=adminADMIN1234!
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json:ro
+      - pgadmin4data:/var/lib/pgadmin4
+    logging:
+      driver: none
+  database:
+    image: bitnami/postgresql:13.9.0
+    environment:
+      - POSTGRESQL_DATABASE=sampling
+      - POSTGRESQL_PASSWORD=adminADMIN1234!
+    volumes:
+      - postgresdata:/bitnami/postgresql
+    ports:
+      - "65432:5432"
+volumes:
+  pgadmin4data:
+  postgresdata:
