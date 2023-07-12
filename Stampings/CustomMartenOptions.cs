@@ -1,3 +1,4 @@
+using JasperFx.CodeGeneration;
 using Marten;
 using Marten.Events.Projections;
 using Stampings.Events;
@@ -23,7 +24,9 @@ public sealed class CustomMartenOptions : StoreOptions
         Events.AddEventType<StampingDeleted>();
 
         AutoCreateSchemaObjects = AutoCreate.All;
-
+        
+        GeneratedCodeMode = TypeLoadMode.Dynamic;
+        
         Projections.Add<TimesheetProjection>(ProjectionLifecycle.Live);
         Projections.Add<WorkingDayProjection>(ProjectionLifecycle.Live);
     }

@@ -2,6 +2,7 @@ using Stampings.Models;
 
 namespace Stampings.Tests;
 
+// Classic projections
 public sealed class TimesheetProjectionTests : TestBase
 {
     [Test]

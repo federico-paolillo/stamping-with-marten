@@ -2,10 +2,11 @@ using Stampings.Models;
 
 namespace Stampings.Tests;
 
+// Parametric projections
 public sealed class WorkingDayProjectionTests : TestBase
 {
     [Test]
-    public async Task AppliesStampingEvents()
+    public async Task CalculatesWorkingHours()
     {
         using var store = GetStore();
 
@@ -36,6 +37,6 @@ public sealed class WorkingDayProjectionTests : TestBase
             Assert.That(workingDay!.Version, Is.EqualTo(5));
             Assert.That(workingDay!.Stampings, Has.Count.EqualTo(4));
             Assert.That(workingDay!.HoursWorked(), Is.EqualTo(8d));
-        }); 
+        });
     }
 }

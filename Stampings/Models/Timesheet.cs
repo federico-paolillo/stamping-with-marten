@@ -5,7 +5,7 @@ namespace Stampings.Models;
 public sealed class Timesheet
 {
     public Guid Id { get; set; }
-    
+
     public long Version { get; set; }
 
     public string Number { get; init; } = string.Empty;

@@ -30,12 +30,12 @@ public sealed class TimesheetProjection : SingleStreamProjection<Timesheet>
             Time = @event.Time
         };
 
-        var newStampingsList = timesheet.Stampings.Add(newStampingEntry);
+        var newStampingsList = StampingsReducer.Apply(@event, timesheet.Stampings);
 
         return new Timesheet
         {
             Number = timesheet.Number,
-            Stampings = newStampingsList,
+            Stampings = newStampingsList
         };
     }
 
@@ -52,12 +52,12 @@ public sealed class TimesheetProjection : SingleStreamProjection<Timesheet>
             Time = @event.Time
         };
 
-        var newStampingsList = timesheet.Stampings.Add(newStampingEntry);
-        
+        var newStampingsList = StampingsReducer.Apply(@event, timesheet.Stampings);
+
         return new Timesheet
         {
             Number = timesheet.Number,
-            Stampings = newStampingsList,
+            Stampings = newStampingsList
         };
     }
 
@@ -67,11 +67,11 @@ public sealed class TimesheetProjection : SingleStreamProjection<Timesheet>
         ArgumentNullException.ThrowIfNull(timesheet);
 
         var newStampingsList = StampingsReducer.Apply(@event, timesheet.Stampings);
-        
+
         return new Timesheet
         {
             Number = timesheet.Number,
-            Stampings = newStampingsList,
+            Stampings = newStampingsList
         };
     }
 
@@ -81,11 +81,11 @@ public sealed class TimesheetProjection : SingleStreamProjection<Timesheet>
         ArgumentNullException.ThrowIfNull(timesheet);
 
         var newStampingsList = StampingsReducer.Apply(@event, timesheet.Stampings);
-        
+
         return new Timesheet
         {
             Number = timesheet.Number,
-            Stampings = newStampingsList,
-        }; 
+            Stampings = newStampingsList
+        };
     }
 }

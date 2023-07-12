@@ -55,10 +55,7 @@ public static class StampingsReducer
 
         var stampingToChange = stampings.Find(x => x.Id == @event.Stamping);
 
-        if (stampingToChange is null)
-        {
-            return stampings;
-        }
+        if (stampingToChange is null) return stampings;
 
         var stampingChanged = new Stamping
         {

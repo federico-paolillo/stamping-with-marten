@@ -5,9 +5,9 @@ namespace Stampings.Models;
 public sealed class WorkingDay
 {
     public Guid Id { get; set; }
-    
+
     public long Version { get; set; }
-    
+
     public ImmutableList<Stamping> Stampings { get; init; } = ImmutableList<Stamping>.Empty;
 
     public Guid Employee { get; init; }
