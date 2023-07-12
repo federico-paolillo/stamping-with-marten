@@ -1,6 +1,5 @@
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
-using Stampings;
 
 namespace Stampings.Tests.Helpers;
 
@@ -30,10 +29,7 @@ public abstract class TestBase
 
     protected IDocumentStore GetStore()
     {
-        if (serviceProviderScope is null)
-        {
-            throw new InvalidOperationException("Setup the test suite properly");
-        }
+        if (serviceProviderScope is null) throw new InvalidOperationException("Setup the test suite properly");
 
         return serviceProviderScope.ServiceProvider.GetRequiredService<IDocumentStore>();
     }

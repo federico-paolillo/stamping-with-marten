@@ -15,7 +15,7 @@ public sealed class CustomMartenOptions : StoreOptions
         Events.MetadataConfig.HeadersEnabled = false;
         Events.MetadataConfig.CausationIdEnabled = false;
         Events.MetadataConfig.CausationIdEnabled = false;
-        
+
         Events.AddEventType<EmployeeHired>();
         Events.AddEventType<StampedIn>();
         Events.AddEventType<StampedOut>();
@@ -24,6 +24,7 @@ public sealed class CustomMartenOptions : StoreOptions
 
         AutoCreateSchemaObjects = AutoCreate.All;
 
-        Projections.Add<EmployeeProjection>(ProjectionLifecycle.Live);
+        Projections.Add<TimesheetProjection>(ProjectionLifecycle.Live);
+        Projections.Add<WorkingDayProjection>(ProjectionLifecycle.Live);
     }
 }

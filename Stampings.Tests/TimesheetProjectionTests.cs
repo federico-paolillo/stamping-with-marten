@@ -1,19 +1,18 @@
 using Stampings.Models;
-using Stampings.Tests.Helpers;
 
 namespace Stampings.Tests;
 
-public sealed class ProjectionTests : TestBase
+public sealed class TimesheetProjectionTests : TestBase
 {
     [Test]
     public async Task AppliesStampingEvents()
     {
         using var store = GetStore();
-        
+
         await using var wSession = store.LightweightSession();
 
         const string employeeNumber = "balbhbhaba";
-        
+
         var employeeId = wSession.HireEmployee(employeeNumber);
 
         _ = wSession.StampIn(employeeId, new DateOnly(2023, 07, 11), new TimeOnly(8, 0));
@@ -25,25 +24,28 @@ public sealed class ProjectionTests : TestBase
 
         await using var rSession = store.LightweightSession();
 
-        var employee = rSession.Events.AggregateStream<Employee>(employeeId);
-        
+        var employee = rSession.Events.AggregateStream<Timesheet>(employeeId);
+
         Assert.That(employee, Is.Not.Null);
-        
-        Assert.That(employee!.Id, Is.EqualTo(employeeId));
-        Assert.That(employee!.Number, Is.EqualTo(employeeNumber));
-        Assert.That(employee!.Version, Is.EqualTo(5));
-        Assert.That(employee!.Stampings, Has.Count.EqualTo(4));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(employee!.Id, Is.EqualTo(employeeId));
+            Assert.That(employee!.Number, Is.EqualTo(employeeNumber));
+            Assert.That(employee!.Version, Is.EqualTo(5));
+            Assert.That(employee!.Stampings, Has.Count.EqualTo(4));
+        });
     }
 
     [Test]
     public async Task DeletesStampings()
     {
         using var store = GetStore();
-        
+
         await using var wSession = store.LightweightSession();
 
         const string employeeNumber = "balbhbhaba";
-        
+
         var employeeId = wSession.HireEmployee(employeeNumber);
 
         _ = wSession.StampIn(employeeId, new DateOnly(2023, 07, 11), new TimeOnly(8, 0));
@@ -56,26 +58,30 @@ public sealed class ProjectionTests : TestBase
 
         await using var rSession = store.LightweightSession();
 
-        var employee = rSession.Events.AggregateStream<Employee>(employeeId);
-        
+        var employee = rSession.Events.AggregateStream<Timesheet>(employeeId);
+
         Assert.That(employee, Is.Not.Null);
-        
-        Assert.That(employee!.Id, Is.EqualTo(employeeId));
-        Assert.That(employee!.Number, Is.EqualTo(employeeNumber));
-        Assert.That(employee!.Version, Is.EqualTo(6));
-        Assert.That(employee!.Stampings, Has.Count.EqualTo(3)); 
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(employee!.Id, Is.EqualTo(employeeId));
+            Assert.That(employee!.Number, Is.EqualTo(employeeNumber));
+            Assert.That(employee!.Version, Is.EqualTo(6));
+            Assert.That(employee!.Stampings, Has.Count.EqualTo(3));
+        });
+
         Assert.That(employee!.Stampings.FirstOrDefault(x => x.Id == stampingToDelete), Is.Null);
     }
-    
+
     [Test]
     public async Task CorrectsStampings()
     {
         using var store = GetStore();
-        
+
         await using var wSession = store.LightweightSession();
 
         const string employeeNumber = "balbhbhaba";
-        
+
         var employeeId = wSession.HireEmployee(employeeNumber);
 
         _ = wSession.StampIn(employeeId, new DateOnly(2023, 07, 11), new TimeOnly(8, 0));
@@ -88,17 +94,20 @@ public sealed class ProjectionTests : TestBase
 
         await using var rSession = store.LightweightSession();
 
-        var employee = rSession.Events.AggregateStream<Employee>(employeeId);
-        
+        var employee = rSession.Events.AggregateStream<Timesheet>(employeeId);
+
         Assert.That(employee, Is.Not.Null);
-        
-        Assert.That(employee!.Id, Is.EqualTo(employeeId));
-        Assert.That(employee!.Number, Is.EqualTo(employeeNumber));
-        Assert.That(employee!.Version, Is.EqualTo(6));
-        Assert.That(employee!.Stampings, Has.Count.EqualTo(4));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(employee!.Id, Is.EqualTo(employeeId));
+            Assert.That(employee!.Number, Is.EqualTo(employeeNumber));
+            Assert.That(employee!.Version, Is.EqualTo(6));
+            Assert.That(employee!.Stampings, Has.Count.EqualTo(4));
+        });
 
         var stampingChanged = employee!.Stampings.First(x => x.Id == stampingToChange);
-        
+
         Assert.That(stampingChanged.Time, Is.EqualTo(new TimeOnly(12, 30)));
     }
 }

@@ -14,7 +14,7 @@ public static class EventsFactoryExtensions
 
         var @event = new EmployeeHired
         {
-            // Id = employeeId,
+            Id = employeeId,
             Number = employeeNumber
         };
 
@@ -31,7 +31,7 @@ public static class EventsFactoryExtensions
 
         var @event = new StampedIn
         {
-            Date = date,
+            Day = date,
             Time = time,
             Id = stampingId,
             Employee = employee
@@ -45,12 +45,12 @@ public static class EventsFactoryExtensions
     public static Guid StampOut(this IDocumentSession session, Guid employee, DateOnly date, TimeOnly time)
     {
         ArgumentNullException.ThrowIfNull(session);
-        
+
         var stampingId = Guid.NewGuid();
 
         var @event = new StampedOut
         {
-            Date = date,
+            Day = date,
             Time = time,
             Id = stampingId,
             Employee = employee
@@ -64,7 +64,7 @@ public static class EventsFactoryExtensions
     public static void CorrectStamping(this IDocumentSession session, Guid employee, Guid stamping, TimeOnly newTime)
     {
         ArgumentNullException.ThrowIfNull(session);
-        
+
         var @event = new StampingCorrected
         {
             Stamping = stamping,
@@ -78,7 +78,7 @@ public static class EventsFactoryExtensions
     public static void DeleteStamping(this IDocumentSession session, Guid employee, Guid stamping)
     {
         ArgumentNullException.ThrowIfNull(session);
-        
+
         var @event = new StampingDeleted
         {
             Stamping = stamping,

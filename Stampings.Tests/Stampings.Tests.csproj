@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Stampings\Stampings.csproj" />
+        <ProjectReference Include="..\Stampings\Stampings.csproj" />
     </ItemGroup>
 
 </Project>
